@@ -16,20 +16,23 @@ public class DBConnection {
     @SneakyThrows
 
     private DBConnection() {
-        this.connection=DriverManager.getConnection("jdbc:sqlite:/Users/sofiasenkiv/lab10 java/lab10/cache.db");
+        this.connection=DriverManager.getConnection(
+            "jdbc:sqlite:/Users/sofiasenkiv/lab10 java/lab10/cache.db");
 
     }
     @SneakyThrows
     public String getDocument(String gcsPath) {
         PreparedStatement statement = null;
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM document WHERE path=?");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+            "SELECT * FROM document WHERE path=?");
         statement.setString(1, gcsPath);
         ResultSet resultSet = statement.executeQuery();
         return resultSet.getString("parsed");
     }
     @SneakyThrows
     public void createDocument(String gcsPath, String parse) {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO document (path, parsed) VALUES (?, ?)");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+            "INSERT INTO document (path, parsed) VALUES (?, ?)");
         preparedStatement.setString(1, gcsPath);
         preparedStatement.setString(2, parse);
         preparedStatement.executeUpdate();
